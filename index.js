@@ -47,6 +47,50 @@ function element(tag, options, container) {
     return el
 }
 
+function codeTabs(parentBlock) {
+    var blocks = [parentBlock].concat(parentBlock.blocks);
+    var tabsContent = '';
+    var tabsHeader = '';
+
+    blocks.forEach(function(block, i) {
+        var isActive = (i == 0);
+
+        if (!block.kwargs.name) {
+            throw new Error('Code tab requires a "name" property');
+        }
+
+        tabsHeader += createTab(block, i, isActive);
+        tabsContent += createTabBody(block, i, isActive);
+    });
+
+
+    return '<div class="codetabs">' +
+        '<div class="codetabs-header">' + tabsHeader + '</div>' +
+        '<div class="codetabs-body">' + tabsContent + '</div>' +
+        '</div>';
+}
+
+function apiBlock(parentBlock) {
+    return this.book.renderBlock('markdown', parentBlock.body).then(function (body) {
+        // Create container
+        const container = element('div', {class: 'api-container'});
+
+        // Create header
+        const header = element('div', {class: 'api-header'}, container);
+        if (parentBlock.kwargs.method) {
+            element('small', {text: parentBlock.kwargs.method, class: parentBlock.kwargs.method.toLowerCase()}, header)
+        }
+        element('h2', {text: parentBlock.args[0]}, header);
+        if (parentBlock.kwargs.url) {
+            element('span', {text: parentBlock.kwargs.url}, header)
+        }
+
+        // Create content section
+        const content = element('div', {class: 'api-content'}, container);
+        element('div', {class: 'api-description', html: body}, content);
+        return container.outerHTML;
+    });
+}
 
 module.exports = {
     book: {
@@ -63,26 +107,9 @@ module.exports = {
 
     blocks: {
         api: {
-            process(block) {
-                return this.book.renderBlock('markdown', block.body).then(function (body) {
-                    // Create container
-                    const container = element('div', {class: 'api-container'});
-
-                    // Create header
-                    const header = element('div', {class: 'api-header'}, container);
-                    if (block.kwargs.method) {
-                        element('small', {text: block.kwargs.method, class: block.kwargs.method.toLowerCase()}, header)
-                    }
-                    element('h2', {text: block.args[0]}, header);
-                    if (block.kwargs.url) {
-                        element('span', {text: block.kwargs.url}, header)
-                    }
-
-                    // Create content section
-                    const content = element('div', {class: 'api-content'}, container);
-                    element('div', {class: 'api-description', html: body}, content);
-                    return container.outerHTML
-                })
+            blocks: ['language'],
+            process(parentBlock) {
+                return apiBlock(parentBlock) + codeTabs(parentBlock);
             }
         },
         codetabs: {
