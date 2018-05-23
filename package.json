@@ -24,6 +24,9 @@
   "scripts": {
     "test": "nyc --reporter=text mocha"
   },
+  "dependencies": {
+    "escape-html": "^1.0.3"
+  },
   "engines": {
     "gitbook": ">=3.2.3"
   }
