@@ -70,8 +70,8 @@ function codeTabs(parentBlock) {
         '</div>';
 }
 
-function apiBlock(parentBlock) {
-    return this.book.renderBlock('markdown', parentBlock.body).then(function (body) {
+function apiBlock(book, parentBlock) {
+    return book.renderBlock('markdown', parentBlock.body).then(function (body) {
         // Create container
         const container = element('div', {class: 'api-container'});
 
@@ -109,7 +109,7 @@ module.exports = {
         api: {
             blocks: ['language'],
             process(parentBlock) {
-                return apiBlock(parentBlock) + codeTabs(parentBlock);
+                return apiBlock(this.book, parentBlock) + codeTabs(parentBlock);
             }
         },
         codetabs: {
