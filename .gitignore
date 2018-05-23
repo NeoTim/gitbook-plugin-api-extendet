@@ -1,6 +1,9 @@
 ## NodeJs
 node_modules/
 
+## GitBook Testing Enviroiment
+gitbook_testing/
+
 # Prerequisites
 *.d
 
