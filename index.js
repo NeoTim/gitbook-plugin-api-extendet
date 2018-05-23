@@ -2,6 +2,30 @@
 
 const document = require('html-element').document
 
+var escape = require('escape-html');
+
+/*
+    Generate HTML for the tab in the header
+    @param {Block}
+    @param {Boolean}
+    @return {String}
+*/
+function createTab(block, i, isActive) {
+    return '<div class="tab' + (isActive? ' active' : '') + '" data-codetab="' + i + '">' + block.kwargs.name + '</div>';
+}
+
+/*
+    Generate HTML for the tab's content
+    @param {Block}
+    @param {Boolean}
+    @return {String}
+*/
+function createTabBody(block, i, isActive) {
+    return '<div class="tab' + (isActive? ' active' : '') + '" data-codetab="' + i + '"><pre><code class="lang-' + (block.kwargs.type || block.kwargs.name) + '">'
+        + escape(block.body) +
+    '</code></pre></div>';
+}
+
 
 function element(tag, options, container) {
     options = options || {}
