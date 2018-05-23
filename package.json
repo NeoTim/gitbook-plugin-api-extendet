@@ -21,13 +21,9 @@
     "url": "https://gitlab.com/l0nax/gitbook-plugin-api-extendet/issues"
   },
   "homepage": "https://gitlab.com/l0nax/gitbook-plugin-api-extendet#README",
-  "devDependencies": {
-    "nyc": "^11.8.0"
-  },
   "scripts": {
     "test": "nyc --reporter=text mocha"
   },
-  "dependencies": {},
   "engines": {
     "gitbook": ">=3.2.3"
   }
