@@ -34,7 +34,8 @@
     "eslint-plugin-standard": "^3.0.1"
   },
   "dependencies": {
-    "escape-html": "^1.0.3"
+    "escape-html": "^1.0.3",
+    "html-element": "^2.2.0"
   },
   "engines": {
     "gitbook": ">=3.2.3"
